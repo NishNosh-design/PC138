@@ -18,14 +18,19 @@ var ball = {
 }
 
 function setup(){
-  var canvas =  createCanvas(700,600);
+  var canvas = createCanvas(700,600);
   canvas.parent("canvas");
+  video = createCapture(VIDEO);
+  video.size(700,600);
+  video.hide();
+  poseNet = ml5.poseNet(video, modelLoaded);
 }
 
+
 function draw(){
-
  background(0); 
-
+ image(video,0,0,700,600);
+ 
  fill("black");
  stroke("black");
  rect(680,0,20,700);
@@ -42,7 +47,7 @@ function draw(){
    paddle1Y = mouseY; 
    rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
    
-
+   
     fill("#FFA500");
     stroke("#FFA500");
    var paddle2y =ball.y-paddle2Height/2;  rect(paddle2Y,paddle2y,paddle2,paddle2Height,100);
@@ -50,11 +55,12 @@ function draw(){
     midline();
     
    drawScore();
-
+   
    models();
    
     move();
 }
+
 
 function reset(){
    ball.x = width/2+100,
@@ -121,7 +127,6 @@ if(pcscore ==4){
    }   
 }
 
-function models(){
     textSize(18);
     fill(255);
     noStroke();
@@ -138,3 +143,7 @@ function paddleInCanvas(){
     mouseY =0;
   }  
 }
+
+function modelLoaded(){
+  console.log("model_loaded");
+} 
